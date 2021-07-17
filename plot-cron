@@ -1,0 +1,1 @@
+* * * * * /scripts/tmobile_plot.sh  -d /data/data.csv >> /var/log/cron.log 2>&1

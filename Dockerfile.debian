@@ -1,0 +1,19 @@
+FROM debian:buster
+RUN apt-get update \
+    && apt-get -y install -qq --force-yes \
+       cron \
+       curl \
+       gnuplot \
+       jq \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /scripts
+COPY ["tmobile_plot.sh", "plot-cron", "/scripts/"]
+RUN chmod 0744 /scripts/tmobile_plot.sh \
+    && chmod 0644 /scripts/plot-cron \
+    && crontab /scripts/plot-cron \
+    && touch /var/log/cron.log
+
+VOLUME /data
+
+CMD cron && tail -f /var/log/cron.log 
